@@ -6,7 +6,7 @@ A project to develop an open source colorimeter / spectrophotometer that is "goo
 ### Hardware needed
 - An LDR, light sensitive resistor as light detector
 - A single-wavelength or multi-wavelength LED as light source
-- A couvette, preferably of quartz due to its optical qualities
+- A couvette, preferably of quartz due to its optical qualities (Mine is 12.5x12.5x45mm from Purshee.com wavelength 200-2500nm, 3.5ml volume)
 - An Arduino to make the measurements
 - A PC to run software and analysis
 
@@ -17,7 +17,7 @@ A project to develop an open source colorimeter / spectrophotometer that is "goo
 
 ### Other things needed
 - Food coloring for initial tests (optional)
-- Water quality test kit (ammonia suggested)
+- Water quality test kit (ammonia suggested, can be of any chemistry, but I am using salicylate method, JBL Seawater Ammonia test kit)
 - Household ammonia (to calibrate software)
 
 ## Theory
@@ -33,7 +33,9 @@ Putting this all together, we can also calibrate the readings of the kits to a k
 Something like that.
 
 ## Remaining work
-- Make Arduino software
+- ~~Design 3D models, then print for couvette-assembly~~
 - Assemble electronics
+- Make Arduino software
 - Make PC software
 - Test and calibrate
+- Final casing
