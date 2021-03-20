@@ -35,3 +35,28 @@ LDR resistance with clear path: 53 kohm
 LDR resistance with quartz couvette: 58.3 kohm and inserted wrongly: 191 kohm
 LDR resistance with plastic couvette: 61 kohm and inserted wrongly: 66 kohm
 
+## Thoughts about Arduino ADC
+The Analog to Digital conversion in the Arduino Uno, using the ATmega328 8-bit MCU, has 10 bits resolution.
+
+ADC Resolution = Vref / ((2^n) - 1) = 5 / ((2^10)-1) = 5/1023 = 0.00488758553 volt bins
+
+Digital output = Vin / Resolution
+Digital output = 5 / 0.00488758553 = 1023 (when Vin is 5v)
+Digital output = 2.5 / 0.00488758553 = 512 (when Vin is 2.5v)
+
+A voltage divider:
+Vout = ( R2 / (R1 + R2)) * Vin
+Vout = ( R2 / (R1 + R2)) * Vin
+
+![Light path](img/notes_res_div.png?raw=true "Resistive divider")
+
+Setting R1 = 258 kohm
+We have R2 being the LDR, varying from 18 kohm to up to 2000 kohm (guestimates finger in the air values from the table).
+
+This gives us two extremes, for high light and low light conditions, remembering that the LDR lowers resistance under higher light:
+Vout = ( 18000 / (258000 + 18000)) * 5 = 0.32608695652 volts
+Digital output = 0.32608695652 / 0.00488758553 = 66 (when Vin is 5v)
+
+Vout = ( 2000000 / (258000 + 2000000)) * 5 = 4.4286979628 volts
+Digital output = 4.4286979628 / 0.00488758553 = 906 (when Vin is 5v)
+
