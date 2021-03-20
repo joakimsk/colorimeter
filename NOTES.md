@@ -50,17 +50,18 @@ Vout = ( R2 / (R1 + R2)) * Vin
 
 ![Light path](img/notes_res_div.png?raw=true "Resistive divider")
 
-Setting R1 = 258 kohm
-We have R2 being the LDR, varying from 18 kohm to up to 2000 kohm (guestimates finger in the air values from the table).
+Setting R2 = 258 kohm
+We have R1 being the LDR, varying from 18 kohm to up to 2000 kohm (guestimates finger in the air values from the table).
+
+We set R1 to be LDR because when LDR gets light on it, it will "pull up" Vout to Vin voltage.
 
 This gives us two extremes, for high light and low light conditions, remembering that the LDR lowers resistance under higher light:
 
-Vout = ( 18000 / (258000 + 18000)) * 5 = 0.32608695652 volts
+Vout = ( 258000 / (18000 + 258000)) * 5 = 4.67391304348 volts
 
-Digital output = 0.32608695652 / 0.00488758553 = 66 (when Vin is 5v)
+Digital output = 4.67391304348 / 0.00488758553 = 956 (when Vin is 5v)
 
 
-Vout = ( 2000000 / (258000 + 2000000)) * 5 = 4.4286979628 volts
+Vout = (258000 / (2000000 + 258000)) * 5 = 0.5713020372 volts
 
-Digital output = 4.4286979628 / 0.00488758553 = 906 (when Vin is 5v)
-
+Digital output = 0.5713020372 / 0.00488758553 = 117 (when Vin is 5v)
