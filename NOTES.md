@@ -54,9 +54,13 @@ Setting R1 = 258 kohm
 We have R2 being the LDR, varying from 18 kohm to up to 2000 kohm (guestimates finger in the air values from the table).
 
 This gives us two extremes, for high light and low light conditions, remembering that the LDR lowers resistance under higher light:
+
 Vout = ( 18000 / (258000 + 18000)) * 5 = 0.32608695652 volts
+
 Digital output = 0.32608695652 / 0.00488758553 = 66 (when Vin is 5v)
 
+
 Vout = ( 2000000 / (258000 + 2000000)) * 5 = 4.4286979628 volts
+
 Digital output = 4.4286979628 / 0.00488758553 = 906 (when Vin is 5v)
 
