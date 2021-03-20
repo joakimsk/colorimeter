@@ -53,3 +53,25 @@ Something like that.
 - Make PC software
 - Test and calibrate
 - Final casing
+
+## Theory & code references
+[moleculardevices.com Absorbance](https://www.moleculardevices.com/technology/absorbance)
+[electronics-tutorials.ws Light sensors](https://www.electronics-tutorials.ws/io/io_4.html)
+
+## Similar work
+[mit.edu Low Cost Colorimeter](http://www.mit.edu/~milesdai/projects/colorimeter/index.html)
+[iorodeo.com Open Source Colorimeter Project](https://iorodeo.com/pages/colorimeter-project)
+[instructables.com Inexpensive photometer & colorimeter](https://www.instructables.com/An-Inexpensive-Photometer-and-Colorimeter/)
+[arduino.cc Open Source Colorimeter](https://create.arduino.cc/projecthub/MOST/open-source-colorimeter-cd0a76)
+[arduino.cc Mini spectrophotometer](https://create.arduino.cc/projecthub/radsensors/minispec-0e3bc5)
+[publicLab.org Desktop spectrometer with DVD diffraction grating](https://publiclab.org/notes/abdul/08-11-2016/constructing-a-desktop-spectrometer-with-no-wood-and-no-velcro)
+
+[researchgate.net A Simple, Rapid Analysis, Portable, Low-cost, and Arduino-based Spectrophotometer with White LED as a Light Source for Analyzing Solution Concentration](https://www.researchgate.net/publication/324161531_A_Simple_Rapid_Analysis_Portable_Low-cost_and_Arduino-based_Spectrophotometer_with_White_LED_as_a_Light_Source_for_Analyzing_Solution_Concentration)
+[researchgate.net Open-Source Colorimeter](https://www.researchgate.net/publication/236252679_Open-Source_Colorimeter/link/0c9605171839574c56000000/download)
+[iop.org Development of color detector using colorimetry system with
+photodiode sensor for food dye determination application](https://iopscience.iop.org/article/10.1088/1742-6596/1185/1/012031/pdf)
+
+## Possible light sources and detectors
+[sparkfun rgb light sensor ISL29125](https://www.sparkfun.com/products/12829)
+[Digital 16bit Serial Output Type Ambient Light Sensor IC BH1750FVI](https://www.mouser.com/datasheet/2/348/bh1750fvi-e-186247.pdf)
+[electronics-notes.com LDR: Light Dependent Resistor](https://www.electronics-notes.com/articles/electronic_components/resistors/light-dependent-resistor-ldr.php)
