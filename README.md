@@ -19,7 +19,7 @@ A project to develop an open source colorimeter / spectrophotometer that is "goo
 - Food coloring for initial tests (optional)
 - Water quality test kit (ammonia suggested, can be of any chemistry, but I am using salicylate method, JBL Seawater Ammonia test kit)
 - Household ammonia (to calibrate software)
-- A small syringe, I have 1mm with a short tip from the local pharmacy
+- A small syringe, I have 1 ml with a short tip from the local pharmacy
 
 ## Theory
 Send light through a liquid, our sample. Detect how much light is received. With light at a certain color, the light received tells us how much light was absorbed, and how much was passed through the sample. If we use three different colors, maybe we can say which color the liquid is.
@@ -48,8 +48,8 @@ Something like that.
 
 ## Remaining work
 - ~~Design 3D models, then print for couvette-assembly~~
-- Assemble electronics
-- Make Arduino software
+- ~~Assemble electronics~~
+- Make Arduino software (in progress)
 - Make PC software
 - Test and calibrate
 - Final casing

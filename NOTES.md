@@ -3,8 +3,8 @@
 
 ## PWM vs LDR resistance
 
-Measurement of LDR resistance against PWM output value, Arduino ADC range is {0-255}. Shining through the colorimeter.
-Colorimeter is kept in the dark (with a Norwegian lue), so light pollution should be minimal.
+Measurement of LDR resistance against PWM output value, Arduino ADC range is {0-255}. Shining through the colorimeter, but without couvette (i forgot it...).
+Colorimeter is kept in the dark (with a Norwegian dark grey lue), so light pollution should be minimal.
 
 |       	| 20     	| 45    	| 50    	| 100  	| 150  	| 200  	| 250  	| 255  	|
 |-------	|--------	|-------	|-------	|------	|------	|------	|------	|------	|
@@ -29,4 +29,9 @@ Median of the table is 126.5 kohm
 I cannot remember how to select optimal value, so I will just use the average value as the second resistor in the voltage divider. This should give us a 2.5 volt to ADC when the LDR is at the average value.
 
 I select 220 kohm + 38.6 kohm, measured to 258 kohm, near enough to 256.9 kohm.
+
+We set RGB to <100,100,100>
+LDR resistance with clear path: 53 kohm
+LDR resistance with quartz couvette: 58.3 kohm and inserted wrongly: 191 kohm
+LDR resistance with plastic couvette: 61 kohm and inserted wrongly: 66 kohm
 
