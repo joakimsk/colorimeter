@@ -49,8 +49,8 @@ Something like that.
 ## Remaining work
 - ~~Design 3D models, then print for couvette-assembly~~
 - ~~Assemble electronics~~
-- Make Arduino software (in progress)
-- Make PC software
+- ~~Make Arduino software~~
+- Make PC software (in progress)
 - Test and calibrate
 - Final casing
 
