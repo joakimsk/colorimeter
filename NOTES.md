@@ -53,7 +53,7 @@ Vout = ( R2 / (R1 + R2)) * Vin
 Setting R2 = 258 kohm
 We have R1 being the LDR, varying from 18 kohm to up to 2000 kohm (guestimates finger in the air values from the table).
 
-We set R1 to be LDR because when LDR gets light on it, it will "pull up" Vout to Vin voltage.
+We set R1 to be LDR because when LDR gets light on it, it will "pull up" Vout to Vin voltage. This is because LDR resistance goes down when light amount goes up.
 
 This gives us two extremes, for high light and low light conditions, remembering that the LDR lowers resistance under higher light:
 

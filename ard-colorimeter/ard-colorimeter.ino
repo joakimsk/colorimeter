@@ -1,6 +1,18 @@
-int ledRed = 9; // red
-int ledGreen = 10; // green
-int ledBlue = 11; // blue
+#include <ArduinoJson.h>
+#include <MovingAverage.h>
+
+// Prototypes in header
+#include "ard-colorimeter.h"
+
+#define ledRedPin 9 // red
+#define ledGreenPin 10 // green
+#define ledBluePin 11 // blue
+#define ldrPin 14 // A0
+
+uint16_t ldrVal = 0; // 2 bytes unsigned int, 0-65535
+
+MovingAverage <uint16_t, 8> filter;
+StaticJsonDocument<200> jsonOut;
 
 const byte numChars = 32;
 char receivedChars[numChars];
@@ -8,48 +20,40 @@ char tempChars[numChars];
 
 char messageFromPC[numChars] = {0};
 int redPwmFromPc = 0;
-int bluePwmFromPc = 0;
 int greenPwmFromPc = 0;
+int bluePwmFromPc = 0;
 
 boolean newData = false;
 
 int invertvalue(int inval){
-  return 255-inval;
+    return 255-inval;
 }
 
-void setPinPwm(int redPwm, int bluePwm, int greenPwm){
-  analogWrite(ledRed, invertvalue(redPwm));
-  analogWrite(ledBlue, invertvalue(bluePwm));
-  analogWrite(ledGreen, invertvalue(greenPwm));
+void setPinPwm(int redPwm, int greenPwm, int bluePwm){
+    analogWrite(ledRedPin, invertvalue(redPwm));
+    analogWrite(ledGreenPin, invertvalue(greenPwm));
+    analogWrite(ledBluePin, invertvalue(bluePwm));
 }
 
 void setup() {
     Serial.begin(9600);
-    Serial.println("Enter data in this style <rrr,ggg,bbb>");
-    Serial.println("Ex full red is <255,0,0>");
-}
-
-void executeCommand(){
-    setPinPwm(redPwmFromPc, bluePwmFromPc, greenPwmFromPc);
-    Serial.print("Setting to PWM rgb:");
-    Serial.print(redPwmFromPc);
-    Serial.print(" ");
-    Serial.print(greenPwmFromPc);
-    Serial.print(" ");
-    Serial.println(bluePwmFromPc);
-
 }
 
 void loop() {
-    recvWithStartEndMarkers();
-    if (newData == true) {
-        strcpy(tempChars, receivedChars);
-            // this temporary copy is necessary to protect the original data
-            //   because strtok() used in parseData() replaces the commas with \0
-        parseCommand();
-        executeCommand();
-        newData = false;
-    }
+   recvWithStartEndMarkers();
+   if (newData == true) {
+       strcpy(tempChars, receivedChars);
+            //this temporary copy is necessary to protect the original data
+            //  because strtok() used in parseData() replaces the commas with \0
+
+       parseCommand();
+       newData = false;
+   }
+
+    ldrVal = analogRead(ldrPin);
+    filter.add(ldrVal); // Add to moving average filter, 8 values
+    
+    delay(1); // delay 1 ms per cycle
 }
 
 void recvWithStartEndMarkers() {
@@ -86,14 +90,33 @@ void recvWithStartEndMarkers() {
 
 void parseCommand() {
 
-    char * strtokIndx; // this is used by strtok() as an index
+  char *strtokIndx; // this is used by strtok() as an index
 
-    strtokIndx = strtok(tempChars,",");      // get the first part - the string
-    redPwmFromPc = atoi(strtokIndx);     // convert this part to an integer
- 
-    strtokIndx = strtok(NULL, ","); // this continues where the previous call left off
-    bluePwmFromPc = atoi(strtokIndx);     // convert this part to an integer
-    
-    strtokIndx = strtok(NULL, ","); // this continues where the previous call left off
-    greenPwmFromPc = atoi(strtokIndx);     // convert this part to an integer
+  switch (tempChars[0]) {
+  case 'r': //read ldr ex <r>
+    Serial.println(filter.get());
+    break;
+  case 's': //set leds ex <s,{rgb},255>
+    strtokIndx = strtok(tempChars, ","); // jump over the command
+    strtokIndx = strtok(NULL, ",");
+    char *color = strtokIndx;
+    if (strcmp(color, "r") == 0){
+        strtokIndx = strtok(NULL, ",");
+        redPwmFromPc = atoi(strtokIndx);     // convert this part to an integer
+    } else if (strcmp(color, "g") == 0){
+        strtokIndx = strtok(NULL, ",");
+        greenPwmFromPc = atoi(strtokIndx);     // convert this part to an integer
+    } else if (strcmp(color, "b") == 0){
+        strtokIndx = strtok(NULL, ",");
+        bluePwmFromPc = atoi(strtokIndx);     // convert this part to an integer
+    } else {
+        Serial.print("Unknown color:");
+        Serial.println(color);
+    }
+    setPinPwm(redPwmFromPc, greenPwmFromPc, bluePwmFromPc);
+    break;
+  default:
+    Serial.print("Unknown command: ");
+    Serial.println(tempChars[0]);
+  }
 }

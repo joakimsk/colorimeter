@@ -40,7 +40,7 @@ Something like that.
 
 - White PLA plastic, and 20% infill during print will allow more light to pass through the body. And, imperfect joints will too. Try black plastic spray paint for this. If not enough, use black PLA and set 100% infill. If still not enough, put it all inside another light-proof box.
 
-- LDR and LED may not be accurate enough, so we may consider upgrading these components, maybe using a light sensor instead of a light resistor.
+- LDR and LED may not be accurate enough, so we may consider upgrading these components, maybe using a light sensor instead of a light resistor. LDR resistance is among other, temperature dependent. LDR has also a bit of latency, it takes time for the resistance to reach stable value, going from full dark to full light, often taking one second.
 
 - Conversion roundoff errors and noise in Arduino may become a problem as well. Arduino Uno is 8 bit, the ADC has 8 bit resolution. The LDR is an analog device.
 
