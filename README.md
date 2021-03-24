@@ -35,8 +35,13 @@ Something like that.
 
 ### Optical parameters
 Reflectance: Amount of reflected light, referenced to a reference measurement. Expessed in % or dB, negative number.
+
 Absorbance: Amount of light absorbed, referenced to a reference measurement, can be original light source. Expressed in dB, considered opposite of transmittance.
+
 Transmittance: Amount of light transmitted through a liquid, referenced to a reference measurement, can be original light source. Expressed in % or dB.
+
+![Optical parameters, copyright original owner](img/readme_optical_parameters.png?raw=true "Optical parameters, copyright original owner")
+
 [pyroistech.com relative measurements ](https://www.pyroistech.com/relative-measurements/)
 
 We should probably decide on what 100% transmittance is, then do a divison to find relative transmittance for various colors/wavelengths.
