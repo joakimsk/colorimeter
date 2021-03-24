@@ -20,7 +20,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
 import matplotlib.pyplot as plt
-
+import time
 
 import numpy as np
 import threading
@@ -51,21 +51,28 @@ class MainWidget(QWidget):
         self.boolGreenOn = False
         self.boolBlueOn = False
 
+        self.calibratedLDRValues = {"red":None, "green":None, "blue":None, "all":None} # Empty dict to store calibration values, LDR illuminated at R G B All without couvette
+
         # Plot data
         self.xPlot = [1, 2, 3, 3]
         self.yPlot = [1, 2, 3, 4]
+
+        self.start_time = time.time() # To be reset at calibration
 
         self.initUI()
 
     def initUI(self):
 
+        btnCalibrateColorimeter = QPushButton("Calibrate")
+        btnSampleColorimeter = QPushButton("Sample")
         btnReadLDR = QPushButton("Read LDR")
         cbRed = QCheckBox('Red', self)
         cbGreen = QCheckBox('Green', self)
         cbBlue = QCheckBox('Blue', self)
         self.lblLDR = QLabel('-1', self)
 
-
+        btnCalibrateColorimeter.clicked.connect(self.calibrateColorimeter)
+        btnSampleColorimeter.clicked.connect(self.sampleColorimeter)
         btnReadLDR.clicked.connect(self.readLDR)
         cbRed.stateChanged.connect(self.toggleRed)
         cbGreen.stateChanged.connect(self.toggleGreen)
@@ -73,12 +80,13 @@ class MainWidget(QWidget):
 
         hbox = QHBoxLayout()
         hbox.addStretch(1)
+        hbox.addWidget(btnCalibrateColorimeter)
+        hbox.addWidget(btnSampleColorimeter)
         hbox.addWidget(btnReadLDR)
         hbox.addWidget(self.lblLDR)
         hbox.addWidget(cbRed)
         hbox.addWidget(cbGreen)
         hbox.addWidget(cbBlue)
-        
 
         vbox = QVBoxLayout()
         vbox.addStretch(1)
@@ -137,6 +145,86 @@ class MainWidget(QWidget):
         else:
             ser.write(b'<s,b,255>')
             self.boolBlueOn = True
+
+    def readLDR(self, delay = 1): # Delay in seconds
+        time.sleep(delay)
+        ser.write(b'<r>')
+        serData = ser.readline()
+        ldrValue = int(serData.decode().strip())
+        return ldrValue
+
+    def calibrateColorimeter(self):
+        print('calibrating colorimeter, also resets time to t=0 upon completion')
+
+        # Make sure all LEDS are off
+        ser.write(b'<s,r,0>')
+        ser.write(b'<s,g,0>')
+        ser.write(b'<s,b,0>')
+
+        # Make test reading
+        if self.readLDR(delay=1) > 1: # If larger than 1, too much noise in background?
+            print('not all lights are off we think, aborting')
+        else:
+            ser.write(b'<s,r,255>')
+            self.calibratedLDRValues['red'] = self.readLDR(delay=1)
+            ser.write(b'<s,r,0>')
+            
+            ser.write(b'<s,g,255>')
+            self.calibratedLDRValues['green'] = self.readLDR(delay=1)
+            ser.write(b'<s,g,0>')
+
+            ser.write(b'<s,b,255>')
+            self.calibratedLDRValues['blue'] = self.readLDR(delay=1)
+            ser.write(b'<s,b,0>')
+
+            ser.write(b'<s,r,255>')
+            ser.write(b'<s,g,255>')
+            ser.write(b'<s,b,255>')
+            self.calibratedLDRValues['all'] = self.readLDR(delay=1)
+            ser.write(b'<s,r,0>')
+            ser.write(b'<s,g,0>')
+            ser.write(b'<s,b,0>')
+
+        self.start_time = time.time()
+        print(self.calibratedLDRValues)
+
+    def nowAfterCalibration(self): # Returns seconds after calibration
+        return(time.time() - self.start_time)
+
+    def sampleColorimeter(self):
+        print('sampling colorimeter, all colors')
+
+        # Make sure all LEDS are off
+        ser.write(b'<s,r,0>')
+        ser.write(b'<s,g,0>')
+        ser.write(b'<s,b,0>')
+
+        # Make test reading
+        if self.readLDR(delay=1) > 1: # If larger than 1, too much noise in background?
+            print('not all lights are off we think, aborting')
+        else:
+            ser.write(b'<s,r,255>')
+            redTransmittance = self.readLDR(delay=1) / self.calibratedLDRValues['red'] * 100
+            ser.write(b'<s,r,0>')
+            
+            ser.write(b'<s,g,255>')
+            greenTransmittance = self.readLDR(delay=1) / self.calibratedLDRValues['green'] * 100
+            ser.write(b'<s,g,0>')
+
+            ser.write(b'<s,b,255>')
+            blueTransmittance = self.readLDR(delay=1) / self.calibratedLDRValues['blue'] * 100
+            ser.write(b'<s,b,0>')
+
+            ser.write(b'<s,r,255>')
+            ser.write(b'<s,g,255>')
+            ser.write(b'<s,b,255>')
+            allTransmittance = self.readLDR(delay=1) / self.calibratedLDRValues['all'] * 100
+            ser.write(b'<s,r,0>')
+            ser.write(b'<s,g,0>')
+            ser.write(b'<s,b,0>')
+            time.time() - self.start_time
+            print(f"t={self.nowAfterCalibration():.1f}s: sampled ok, transmittance is: red {redTransmittance:.1f}%, green {greenTransmittance:.1f}%, blue {blueTransmittance:.1f}%, all {allTransmittance:.1f}%")
+            return redTransmittance, greenTransmittance, blueTransmittance, allTransmittance
 
 class MainWindow(QMainWindow):
 

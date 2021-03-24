@@ -150,3 +150,23 @@ Blue is more opaque to green and red, than blue light.
 
 Could we use ALL leds without a couvette as 100% Transmittance, and then do a simple divison to find transmittance in %? Plausible way forward.
 We could also do transmittance at different wavelengths.
+
+## Transmittance implementation
+I think we can do this naively, take a calibration reading with an empty couvette in the colorimeter.
+
+Then, take another with the couvette filled with sample liquid, and do a division of ADC values. Output in % transmittance, according to the different LED colors.
+
+Since we do a calibration reading, we should even be able to let the Lue be on the head, where it belongs, instead of on top of the colorimeter.
+
+## LDR time stability and settling-time
+It seems that one second is not enough for the LDR to settle after being illuminated. I should probably try an experiment for each LED, to see how long the LDR really takes.
+
+![LDR time stability](img/notes_ldr_stability.png?raw=true "LDR time stability")
+
+Notice that after the LDR has been kept in the dark for a while, the end-point does not seem to be reached, since the red-transmittance reading is lower.
+
+Since my LDR is a generic no-name without a datasheet, I have no clue about its spectral response nor its response time, but response time could be deduced experimentally.
+My RGB led is also generic no-name, without a datasheet.
+
+[lednique.com ldr details](http://lednique.com/opto-isolators-2/light-dependent-resistor-ldr/)
+

@@ -50,7 +50,9 @@ We should probably decide on what 100% transmittance is, then do a divison to fi
 
 ### Beer-Lambert law
 [wikipedia.org Beer-Lambert law](https://en.wikipedia.org/wiki/Beer%E2%80%93Lambert_law)
+
 Related to the attenuation of light, as it passes through a material. Absorbance = absorpitivity * optical path in cm * concentration of attenuating species.
+
 Should only be applied to absorbance within 0.2 to 0.5, to maintain linearity.
 
 ## Error sources
@@ -71,7 +73,7 @@ Should only be applied to absorbance within 0.2 to 0.5, to maintain linearity.
 - ~~Assemble electronics~~
 - ~~Make Arduino software~~
 - Make PC software (in progress)
-- Test and calibrate
+- Test and calibrate (in progress)
 - Final casing
 
 ## Theory & code references
