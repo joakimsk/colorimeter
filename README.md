@@ -12,6 +12,8 @@ I believe this means that we could manage with a single "full-spectrum" light me
 
 If our solution will be green to blue, we want a light source that is in between green and blue, depending on where we want best accuracy.
 
+Read the [NOTES.md](NOTES.md) for more details and testing.
+
 ## What you need
 ### Hardware needed
 - An LDR, light sensitive resistor as light detector
@@ -100,8 +102,6 @@ Here is a typical UV Quartz couvette transmittance plot, very transmissive from 
 - Make PC software (in progress)
 - Test and calibrate (in progress)
 - Final casing
-
-Read the [NOTES.md](NOTES.md) for more details.
 
 ## Final thoughts
 The idea of the colorimeter works well, but there are some numbers of improvements I suggest for the future.
