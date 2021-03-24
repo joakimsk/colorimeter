@@ -226,6 +226,30 @@ class MainWidget(QWidget):
             print(f"t={self.nowAfterCalibration():.1f}s: sampled ok, transmittance is: red {redTransmittance:.1f}%, green {greenTransmittance:.1f}%, blue {blueTransmittance:.1f}%, all {allTransmittance:.1f}%")
             return redTransmittance, greenTransmittance, blueTransmittance, allTransmittance
 
+    def testResponseTimeLDR(self):
+        print('testing response time for LDR')
+
+        # Make sure all LEDS are off
+        ser.write(b'<s,r,0>')
+        ser.write(b'<s,g,0>')
+        ser.write(b'<s,b,0>')
+
+        # Make test reading
+        if self.readLDR(delay=1) > 1: # If larger than 1, too much noise in background?
+            print('not all lights are off we think, aborting')
+        else:
+            ser.write(b'<s,r,255>')
+            print('led set to 255')
+            for x in range (0,250):
+                ldrValue = self.readLDR(delay=0)
+                time.time() - self.start_time
+                print(f"t={self.nowAfterCalibration():.1f}s: {ldrValue}")
+            ser.write(b'<s,r,0>')
+            print('led set to 0')
+            for x in range (0,250):
+                ldrValue = self.readLDR(delay=0)
+                time.time() - self.start_time
+                print(f"t={self.nowAfterCalibration():.1f}s: {ldrValue}")
 class MainWindow(QMainWindow):
 
     def __init__(self, *args, **kwargs):
@@ -240,8 +264,8 @@ class MainWindow(QMainWindow):
         toolbar.setIconSize(QSize(16,16))
         self.addToolBar(toolbar)
 
-        button_action = QAction(QIcon(), "Read LDR", self)
-        button_action.setStatusTip("Check LDR values")
+        button_action = QAction(QIcon(), "Test LDR", self)
+        button_action.setStatusTip("Extreme test LDR")
         button_action.triggered.connect(self.onMyToolBarButtonClick)
         button_action.setCheckable(True)
         toolbar.addAction(button_action)
@@ -250,8 +274,9 @@ class MainWindow(QMainWindow):
 
 
     def onMyToolBarButtonClick(self, s):
-        print("click")
-        self.wid.readLDR(self.wid)
+        print("tbclick")
+        self.wid.testResponseTimeLDR()
+        #self.wid.readLDR(self.wid)
 
 def main():
     app = QApplication(sys.argv)

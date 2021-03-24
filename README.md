@@ -1,6 +1,16 @@
 # Colorimeter
 
-A project to develop an open source colorimeter / spectrophotometer that is "good enough". End goal is to analyze sample colors for water quality measurements, using off-the-shelf test kits for aquarium water quality. In the process, maybe we can do a sample with less reagents, as well.
+A project to develop an open source colorimeter that is "good enough". End goal is to analyze sample colors for water quality measurements, using off-the-shelf test kits for aquarium water quality. In the process, maybe we can do a sample with less reagents, as well.
+
+Photometer: Measuring quantity of light, usually all kinds of wavelengths, "full spectrum". Output is light intensity.
+
+Colorimeter: Measures the absorbance of particular wavelengths of light by a specific solution. Normally, only a narrow wavelength, where most light is absorbed by the solution, selected with filters is used to maximize accuracy, and Beer-Lambert law is applied to deduce the solution strength.
+
+Spectrophotometer: Measures the absorbance across several wavelengths of light, giving a graph of spectral absorption. Like a colorimeter but across many wavelengths.
+
+I believe this means that we could manage with a single "full-spectrum" light measurement of the liquid, but it gets more accurate as we select correct wavelength. A spectrophotometer is more fancy than necessary in our case.
+
+If our solution will be green to blue, we want a light source that is in between green and blue, depending on where we want best accuracy.
 
 ## What you need
 ### Hardware needed
@@ -90,6 +100,23 @@ Here is a typical UV Quartz couvette transmittance plot, very transmissive from 
 - Make PC software (in progress)
 - Test and calibrate (in progress)
 - Final casing
+
+Read the [NOTES.md](NOTES.md) for more details.
+
+## Final thoughts
+The idea of the colorimeter works well, but there are some numbers of improvements I suggest for the future.
+
+- The LDR is undocumented, and delays the whole sampling process, since it takes time for it to settle when light exposure changes. Get a phototransistor or a color sensor or similar.
+- The RGB led is undocumented as well as lacking a "full spectrum" white color. Preferably it is replaced with well documented light sources, or as in professional instruments, with color filters on a natural light source.
+- The 3D-printed casing should be printed in black plastic, fully filled, to avoid light leakage.
+- The modularity is not necessary, so consider printing it all in one print.
+- The quartz couvette is overkill, it seems, can potentially manage well with normal glass couvettes, or even plastic, due to calibration.
+- The arduino programmed as a simple device works well, with program logic in python.
+- The color standards should be more standard, food coloring works to get an impression but it still do not seem very standard, at least not without measuring exactly. Also, maybe we do not need standards anyhow, after designing this system.
+- There should be a couvette holder nearby, at all times, to avoid spilling water all over the place. I suggest printing this as an addon.
+- Using wood as a base works well, with glue gun to keep things together.
+- Using a small couvette with lesser volume makes you depend on an exact syringe - get an exact robust syringe, not cheap one that loose its markings over time.
+- Making one that fits aquarium test vials may be nice, one for JBL, one for 
 
 ## Theory & code references
 [moleculardevices.com Absorbance](https://www.moleculardevices.com/technology/absorbance)

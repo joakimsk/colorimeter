@@ -97,7 +97,7 @@ This is just to get to know the thing. Lids of couvettes were marked A and B, to
 ![Colorimeter, couvette inserted](img/notes_colorimeter_couvette_inserted_nolid.jpeg?raw=true "Colorimeter, couvette inserted")
 
 ### Comparing freshwater and saltwater without and with lue
-Temperature on both water was roughly 10 degree Celsius in this case.
+Temperature on both water was roughly 10 degree Celsius in this case. I forgot to make readings with all LEDs on.
 
 Unit: 10-bit ADC values, higher means more light passed liquid
 |                  | R       | G       | B       | All |
@@ -134,7 +134,7 @@ There is a big difference in viscosity between red, green and blue food coloring
 
 When sampling, I would say I used "n=5-10" by making several reads after a few seconds, when LDR should be stable, not so scientific.
 
-Saltwater vial also had small bubbles in it, which may reduce light. I forgot to make readings with all LEDs on.
+Saltwater vial also had small bubbles in it, which may reduce light. And, try to avoid touching the quartz with my fatty fingers.
 ![Bubbles in saltwater](img/notes_swbubbles.jpeg?raw=true "Bubbles in saltwater")
 
 Pharmacy syringes seem to loose their markings after some mechanical action. Get a proper one.
