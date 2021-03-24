@@ -58,13 +58,15 @@ Should only be applied to absorbance within 0.2 to 0.5, to maintain linearity.
 ## LDR details
 The LDRs are commonly of CdS, Cadmium sulfide. They have also been mostly discontinued on Elfa Distrelec, but I found a datasheet.
 
+They are most sensitive to green wavelengths, which may explain blue and green samples giving nearly the same, high response.
+
 ![LDR spectral response](img/ldr_response.png?raw=true "LDR spectral response")
 [pdf: ldr datasheet](pdf/ldr_datasheet.pdf)
 
 ## Quartz couvette details
 The couvettes are often found in plastic, normal glass and quartz glass. There are various types of quartz, suitable for different wavelengths.
 
-Here is a typical UV Quartz couvette transmittance plot
+Here is a typical UV Quartz couvette transmittance plot, very transmissive from 200 to 2000 nanometers, far beyond visible light.
 
 ![Quartz couvette](img/quartz_couvette.png?raw=true "Quartz")
 
