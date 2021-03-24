@@ -65,3 +65,81 @@ Digital output = 4.67391304348 / 0.00488758553 = 956 (when Vin is 5v)
 Vout = (258000 / (2000000 + 258000)) * 5 = 0.5713020372 volts
 
 Digital output = 0.5713020372 / 0.00488758553 = 117 (when Vin is 5v)
+
+
+## Color sample solutions
+Food coloring was used to make "standard" solutions for red, green and blue. The primary colors we are interested in, for the Salicylate method for total ammonia nitrogen, is green/yellow to dark blue, but it is nice to check the colorimeter for more colors.
+
+"1 cm long" string of blue food coloring and 5 ml freshwater was mixed.
+Aproximately the same amount of red and green was added to their own 5 ml freshwater, and was mixed.
+
+Two "1ml syringes" of colored liquid was added to the quartz couvettes, totalling 2 ml in each couvette, hopefully enough to not allow light to pass in air above the liquid.
+
+![Blue & Green](img/notes_blue_green_standards.jpeg?raw=true "Blue & Green Standard")
+![Blue & Red](img/notes_blue_red_standards.jpeg?raw=true "Blue & Red Standard")
+
+## Actual LED colors
+It seems that R + G + B != White with an RGB led, to my eyes it looks more azure blue than anything else.
+Ideally I would do all this with a white LED as well one day.
+
+![Red](img/notes_red_led.jpeg?raw=true "Red led")
+![Green](img/notes_green_led.jpeg?raw=true "Green led")
+![Blue](img/notes_blue_led.jpeg?raw=true "Blue led")
+![All](img/notes_all_leds.jpeg?raw=true "All leds")
+
+## First trials
+We receive the voltage coming from the voltage bridge, using an ADC in the Ardunio, translating this voltage into a value between 0-1023.
+
+We use the "Lue" to make sure its dark around the colorimeter, as the black spray paint was not enough to make it opaque to outside light.
+
+This is just to get to know the thing. Lids of couvettes were marked A and B, to keep them seperate. A couvette stand was used after the first spill of saltwater across the desk.
+
+![Colorimeter, couvette inserted](img/notes_colorimeter_couvette_inserted_nolid.jpeg?raw=true "Colorimeter, couvette inserted")
+
+### Comparing freshwater and saltwater without and with lue
+Temperature on both water was roughly 10 degree Celsius in this case.
+
+Unit: 10-bit ADC values, higher means more light passed liquid
+|                  | R       | G       | B       | All |
+|------------------|---------|---------|---------|-----|
+| Freshwater       | 706-710 | 909-910 | 885-886 | NA  |
+| Saltwater        | 703-704 | 906-907 | 882-883 | NA  |
+| Freshwater (Lue) | 705-708 | 907-909 | 882-883 | NA  |
+| Saltwater (Lue)  | 705-707 | 906-907 | 881-882 | NA  |
+
+Here I wanted to see if Lue had much to say on the readings. It has 1-4 values to say, it seems, so we continue using Lue.
+I also think freshwater and saltwater has different colors, but the readings fluctuate a bit so not so easy to say.
+
+### Comparing "standard" freshwater solutions
+The "standards" were compared.
+
+Unit: 10-bit ADC values, higher means more light passed liquid
+|                    | R       | G       | B       | ALL     |
+|--------------------|---------|---------|---------|---------|
+| "Standard green"   | 408-412 | 869-870 | 550-553 | 900-902 |
+| "Standard blue"    | 290-294 | 891-892 | 879-880 | 950     |
+| "Standard red"     | 384-389 | 0-1     | 0-1     | 373-376 |
+| "50% standard red" | 566-568 | 48-51   | 141-145 | 612-614 |
+
+It seems that the "standard red" is too dense, it does not allow any green nor blue through it. After diluting 50%, it was better, but still very strong. I believe the standard was mixed too strong.
+
+Here is blue, red and 50% red standards, notice transparency and lack thereof.
+
+![Blue standard](img/notes_blue_standard.jpeg?raw=true "Blue standard")
+![Red standard](img/notes_full_red.jpeg?raw=true "Red standard")
+![50% red standard](img/notes_50p_red.jpeg?raw=true "50% red standard")
+
+### Some observations, possible issues and improvements
+There is a big difference in viscosity between red, green and blue food coloring. The blue was very viscous, and it was difficult to portion out the amount of coloring by volume
+
+When sampling, I would say I used "n=5-10" by making several reads after a few seconds, when LDR should be stable, not so scientific.
+
+Saltwater vial also had small bubbles in it, which may reduce light. I forgot to make readings with all LEDs on.
+![Bubbles in saltwater](img/notes_swbubbles.jpeg?raw=true "Bubbles in saltwater")
+
+Pharmacy syringes seem to loose their markings after some mechanical action. Get a proper one.
+
+The LDR likely does not behave linearly, either.
+
+The voltage divider would probably be nicer with a potentiometer, so we can adjust the voltage range.
+
