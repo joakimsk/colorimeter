@@ -55,6 +55,19 @@ Related to the attenuation of light, as it passes through a material. Absorbance
 
 Should only be applied to absorbance within 0.2 to 0.5, to maintain linearity.
 
+## LDR details
+The LDRs are commonly of CdS, Cadmium sulfide. They have also been mostly discontinued on Elfa Distrelec, but I found a datasheet.
+
+![LDR spectral response](img/ldr_response.png?raw=true "LDR spectral response")
+[pdf: ldr datasheet](pdf/ldr_datasheet.pdf)
+
+## Quartz couvette details
+The couvettes are often found in plastic, normal glass and quartz glass. There are various types of quartz, suitable for different wavelengths.
+
+Here is a typical UV Quartz couvette transmittance plot
+
+![Quartz couvette](img/quartz_couvette.png?raw=true "Quartz")
+
 ## Error sources
 - If using a round couvette (glass vials that follow test kit), light can get bent along sides and avoid the liquid all-together. Thus we do not use the vials, for now.
 
