@@ -143,3 +143,10 @@ The LDR likely does not behave linearly, either.
 
 The voltage divider would probably be nicer with a potentiometer, so we can adjust the voltage range.
 
+### Conclusion from first trials
+Red is more opaque to green and blue, than red light.
+Green is more opaque to blue and red, than green light.
+Blue is more opaque to green and red, than blue light.
+
+Could we use ALL leds without a couvette as 100% Transmittance, and then do a simple divison to find transmittance in %? Plausible way forward.
+We could also do transmittance at different wavelengths.

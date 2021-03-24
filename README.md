@@ -33,6 +33,21 @@ Putting this all together, we can also calibrate the readings of the kits to a k
 
 Something like that.
 
+### Optical parameters
+Reflectance: Amount of reflected light, referenced to a reference measurement. Expessed in % or dB, negative number.
+Absorbance: Amount of light absorbed, referenced to a reference measurement, can be original light source. Expressed in dB, considered opposite of transmittance.
+Transmittance: Amount of light transmitted through a liquid, referenced to a reference measurement, can be original light source. Expressed in % or dB.
+[pyroistech.com relative measurements ](https://www.pyroistech.com/relative-measurements/)
+
+We should probably decide on what 100% transmittance is, then do a divison to find relative transmittance for various colors/wavelengths.
+
+[sigmaaldrich.com transmittance/absorbance table](https://www.sigmaaldrich.com/technical-documents/articles/biology/transmittance-to-absorbance.html#:~:text=Absorbance%20(A)%20is%20the%20flip,be%20determined%20using%20this%20calculator.)
+
+### Beer-Lambert law
+[wikipedia.org Beer-Lambert law](https://en.wikipedia.org/wiki/Beer%E2%80%93Lambert_law)
+Related to the attenuation of light, as it passes through a material. Absorbance = absorpitivity * optical path in cm * concentration of attenuating species.
+Should only be applied to absorbance within 0.2 to 0.5, to maintain linearity.
+
 ## Error sources
 - If using a round couvette (glass vials that follow test kit), light can get bent along sides and avoid the liquid all-together. Thus we do not use the vials, for now.
 
