@@ -1,6 +1,4 @@
 # Colorimeter Notes
-
-
 ## PWM vs LDR resistance
 
 Measurement of LDR resistance against PWM output value, Arduino ADC range is {0-255}. Shining through the colorimeter, but without couvette (i forgot it...).
@@ -170,3 +168,106 @@ My RGB led is also generic no-name, without a datasheet.
 
 [lednique.com ldr details](http://lednique.com/opto-isolators-2/light-dependent-resistor-ldr/)
 
+## Test methods
+
+There are a few different methods, and variations of those used to measure total ammonia nitrogen, TAN, in aquaculture. The goal is to figure out if we have toxic levels of unionized ammonia NH3 in the water, but the test kits have a tendency to be ambigous regarding what they are actually indicating.
+
+Two of the more common ones in the hobbyist aquarium world is:
+
+The Salicylate method. In the salicylate method, monochloramine formed by the reaction of ammonia and hydrochlorine reacts with salicylate to form blue-green colored 5-aminosalicylate in proportion to the amount of ammoniacal nitrogen. Works well on lower concentrations of TAN, commonly 0–1.0 mg/L.
+
+The Nessler method. A combination of mercury (II) iodide and potassium iodide in highly alkaline solution. Gives a yellow color. Contains mercury, and is thus not available in Norway. Also has a wider effective undiluted range of 0.02–5.0 TAN.
+
+![Salicylate vs Nessler](img/notes_tan_methods.gif?raw=true "Salicylate vs Nessler")
+Read more about these two [here](https://aquabaz.tripod.com/ammoniageneral.htm)
+
+And a more detailed comparison of several methods [Comparison of Nessler, phenate, salicylate and ion selective electrode procedures for determination of total ammonia nitrogen in aquaculture](https://www.sciencedirect.com/science/article/abs/pii/S0044848615301058)
+
+On the topic of units, Nofima has a nice writeup in Norwegian. [Here](https://www.nofima.no/filearchive/produksjon-og-giftighet-av-ammoniakk.pdf)
+
+TAN = NH3-N + NH4+-N
+
+Total Ammoniacal Nitrogen = Ammonia-Nitrogen + Ammonium-Nitrogen
+
+This means we are looking at the ammount of nitrogen.
+
+These two parts of TAN exists in a pH-related equilibrium.
+
+![NH3 vs NH4](img/seneye_nh3_nh4.png?raw=true "NH3 vs NH4")
+
+In RAS operating range, we may find pH from 7 to about 8.1, normal seawater.
+
+Calculate Free Ammonia using [Hamza Reef Free Ammonia calculator](https://www.hamzasreef.com/Contents/Calculators/FreeAmmonia.php)
+
+You can also see the [nitrogen-ion conversion chart](https://www.hamzasreef.com/Contents/Calculators/NitrogenIonConversion.php)
+
+## JBL NH4 test kit
+The JBL NH4 test kit is used for measuring ionized NH4+, or so they say. I think they actually indicate TAN. The values are indicated to be mg/l or ppm, ranging from below 0.05 to 5.
+
+The chemistry used in this is the Salicylate method, which means the colors we will see range from a light green to dark blue, depending on the ammonia concentration.
+
+![JBL TAN color sheet](img/jbl/jbl_tan.png?raw=true "JBL TAN color sheet")
+
+Indicated colors are of the following "NH4", or I believe, TAN.
+| Concentrations: 	| <0.05 	| 0.1 	| 0.2 	| 0.4 	| 0.6 	| 1 	| 1.5 	| 3 	| 5 	|
+|-----------------	|-------	|-----	|-----	|-----	|-----	|---	|-----	|---	|---	|
+
+The price is roughly 200 NOK, and you get 50 tests out of it if you follow the normal procedure.
+
+The normal procedure is:
+1. Add 5 ml water to be measured to a vial
+2. Add 4x drops of Solution #1
+3. Add 4x drops of Solution #2
+4. Add 5x drops of Solution #3
+5. Wait 15 minutes, for reaction to take place
+6. Compare color of liquid to color indicated on test sheet
+
+Remember that when we measure TAN, we have no idea how much is of the toxic unionized NH3 and how much is of the less toxic ionized NH4+.
+To figure out this, we also need to look at the pH and possibly salinity and temperature as well, 
+
+## Ammonia solutions
+
+In order to test our colorimeter, with the JBL NH4 test kit, we need to make a few standard solutions.
+
+We have 9% NH4Cl, Ammonium Chloride, unperfumed from the store.
+
+For 100 liters of water, elevating it from 0 to 1 mg/L TAN, using 9% Ammonium Chloride, and a (calculator)[http://spec-tanks.com/ammonia-calculator-aquariums/].
+
+We need to add 1.1 ml Ammonium Chloride solution.
+
+This is for 1 liter of water, 0.011 ml Ammonium Chloride, too little for me to measure with my 1 ml syringe.
+
+We can take a bucket of 20 liter, add 0.2 ml Ammonium Chloride and get a 1 mg/L solution.
+We can take a bucket of 20 liter, add 1.1 ml  ml Ammonium Chloride and get a 5 mg/L solution.
+
+We should also dilute us down to a few different ones.
+
+I have 1 mg/L solution on hand, so I use this and make one more at 0.5 mg/L, by mixing 50/50 of water and solution.
+
+To do later: Make a more complete table, so that we can make better tests.
+
+## TAN kinetics
+
+I put together autosampling, interval of 30 seconds, for 15 minutes. First tests with the real JBL TAN test kit.
+
+Seawater of 1 mg/L TAN, at room temperature (ca 20 degree Celsius):
+![TAN kinetics room temp](img/notes_tan_kinetics_roomtemp.png?raw=true "TAN kinetics room temp")
+
+Seawater of 1 mg/L TAN, at fridge temperature (ca 4 degree Celsius):
+![TAN kinetics fridge temp](img/notes_tan_kinetics_fridgetemp.png?raw=true "TAN kinetics fridge temp")
+
+Seeing these side by side, we can clearly see that the cold one takes longer to react fully.
+
+We also see that, after the procedure, waiting 15 minutes gives us end values that are not the same. This means, as far as I can tell, that the color is different.
+
+First line of roomtemp:
+t=41.7s: sampled ok, transmittance is: red 92.4%, green 91.6%, blue 80.1%, all 95.0%
+
+Last line of roomtemp:
+t=1062.0s: sampled ok, transmittance is: red 76%, green 80.6%, blue 65.3%, all 88.8%%
+
+First line of chilled:
+t=55.5s: sampled ok, transmittance is: red 97.4%, green 96.5%, blue 88.3%, all 97.5%
+
+Last line of chilled:
+t=1040.9s: sampled ok, transmittance is: red 79.7%, green 86.9%, blue 74.4%, all 92.3%
