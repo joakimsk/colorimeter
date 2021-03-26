@@ -271,3 +271,21 @@ t=55.5s: sampled ok, transmittance is: red 97.4%, green 96.5%, blue 88.3%, all 9
 
 Last line of chilled:
 t=1040.9s: sampled ok, transmittance is: red 79.7%, green 86.9%, blue 74.4%, all 92.3%
+
+## 50% of 1 mg/L TAN test
+
+I diulted the 1 mg/L solution down to 0.5 mg/L and did another plot over 15 minutes.
+
+![TAN kinetics room temp for 0.5mg/L TAN](img/notes_05tan_kinetics_roomtemp.png?raw=true "TAN kinetics room temp for 0.5mg/L TAN")
+
+First line of 0.5 mg/L at room temp:
+t=75.2s: sampled ok, transmittance is: red 92.6%, green 93.9%, blue 83.4%, all 96.0%
+
+Last line of 0.5 mg/L at room temp:
+t=1095.5s: sampled ok, transmittance is: red 76.3%, green 84.7%, blue 71.0%, all 91.0%
+
+Note that the transmittance difference of the green and blue was most significant.
+
+1 mg/L TAN: 79.7% red, 86.9% green, 74.4% blue
+
+0.5 mg/L TAN: 76.3% red, 84.7% green, 71% blue
