@@ -8,6 +8,7 @@
 # =============================================================================
 
 import sys
+import random
 
 import matplotlib
 matplotlib.use('Qt5Agg')
@@ -39,6 +40,7 @@ class MplCanvas(FigureCanvasQTAgg):
     def __init__(self, parent=None, width=5, height=4, dpi=100):
         plt.ion()
         self.fig = Figure(figsize=(width, height), dpi=dpi)
+
         self.axes = self.fig.add_subplot(111)
         super(MplCanvas, self).__init__(self.fig)
 
@@ -54,17 +56,34 @@ class MainWidget(QWidget):
         self.calibratedLDRValues = {"red":None, "green":None, "blue":None, "all":None} # Empty dict to store calibration values, LDR illuminated at R G B All without couvette
 
         # Plot data
-        self.xPlot = [1, 2, 3, 3]
-        self.yPlot = [1, 2, 3, 4]
+        self.xdata1 = [] # This is our timeline, same dimension as data [[t,t,t,t]]
+        self.ydata1 = [] # This is where we put our data, same dimension as time [[r,g,b,w]]
+
+        self.xdata2 = [] # This is our timeline, same dimension as data [[t,t,t,t]]
+        self.ydata2 = [] # This is where we put our data, same dimension as time [[r,g,b,w]]
+
+        self.xdata3 = [] # This is our timeline, same dimension as data [[t,t,t,t]]
+        self.ydata3 = [] # This is where we put our data, same dimension as time [[r,g,b,w]]
+
+        self.xdata4 = [] # This is our timeline, same dimension as data [[t,t,t,t]]
+        self.ydata4 = [] # This is where we put our data, same dimension as time [[r,g,b,w]]
 
         self.start_time = time.time() # To be reset at calibration
 
         self.initUI()
 
+    def update_plot(self):
+        # Drop off the first y element, append a new one.
+        self.canvas.axes.cla()  # Clear the canvas.
+        self.plt = self.canvas.axes.plot(self.xdata1, self.ydata1, 'r-', self.xdata2, self.ydata2, 'g-', self.xdata3, self.ydata3, 'b-', self.xdata4, self.ydata4, 'm--')
+        # Trigger the canvas to update and redraw.
+        self.canvas.draw()
+
     def initUI(self):
 
         btnCalibrateColorimeter = QPushButton("Calibrate")
         btnSampleColorimeter = QPushButton("Sample")
+        btnAutoSampleColorimeter = QPushButton("AutoSample")
         btnReadLDR = QPushButton("Read LDR")
         cbRed = QCheckBox('Red', self)
         cbGreen = QCheckBox('Green', self)
@@ -72,6 +91,7 @@ class MainWidget(QWidget):
         self.lblLDR = QLabel('-1', self)
 
         btnCalibrateColorimeter.clicked.connect(self.calibrateColorimeter)
+        btnAutoSampleColorimeter.clicked.connect(self.autoSampleColorimeter)
         btnSampleColorimeter.clicked.connect(self.sampleColorimeter)
         btnReadLDR.clicked.connect(self.readLDR)
         cbRed.stateChanged.connect(self.toggleRed)
@@ -80,6 +100,7 @@ class MainWidget(QWidget):
 
         hbox = QHBoxLayout()
         hbox.addStretch(1)
+        hbox.addWidget(btnAutoSampleColorimeter)
         hbox.addWidget(btnCalibrateColorimeter)
         hbox.addWidget(btnSampleColorimeter)
         hbox.addWidget(btnReadLDR)
@@ -91,11 +112,11 @@ class MainWidget(QWidget):
         vbox = QVBoxLayout()
         vbox.addStretch(1)
 
-        self.sc = MplCanvas(self, width=5, height=4, dpi=100)
-       # self.sc.axes.plot(self.xPlot, self.yPlot)
-        
+        self.canvas = MplCanvas(self, width=5, height=4, dpi=100)
+        # We do not add any data to plot yet, need to calibrate
 
-        vbox.addWidget(self.sc)
+
+        vbox.addWidget(self.canvas)
         vbox.addLayout(hbox)
 
         self.setLayout(vbox)
@@ -186,10 +207,22 @@ class MainWidget(QWidget):
             ser.write(b'<s,b,0>')
 
         self.start_time = time.time()
+
         print(self.calibratedLDRValues)
 
     def nowAfterCalibration(self): # Returns seconds after calibration
         return(time.time() - self.start_time)
+
+    def autoSampleColorimeter(self):
+        self.sampleIntervalSeconds = 30
+        runtimeMinutes = 15
+        self.runtimeSeconds = runtimeMinutes * 60
+        print(self.runtimeSeconds, self.sampleIntervalSeconds)
+        for i in range(0, int(self.runtimeSeconds/self.sampleIntervalSeconds)):
+            print('autosampling index ',i)
+            self.sampleColorimeter()
+            time.sleep(self.sampleIntervalSeconds)
+        print('autosampling finished')
 
     def sampleColorimeter(self):
         print('sampling colorimeter, all colors')
@@ -224,6 +257,18 @@ class MainWidget(QWidget):
             ser.write(b'<s,b,0>')
             time.time() - self.start_time
             print(f"t={self.nowAfterCalibration():.1f}s: sampled ok, transmittance is: red {redTransmittance:.1f}%, green {greenTransmittance:.1f}%, blue {blueTransmittance:.1f}%, all {allTransmittance:.1f}%")
+
+            self.xdata1.append(self.nowAfterCalibration())
+            self.ydata1.append(redTransmittance)
+            self.xdata2.append(self.nowAfterCalibration())
+            self.ydata2.append(greenTransmittance)
+            self.xdata3.append(self.nowAfterCalibration())
+            self.ydata3.append(blueTransmittance)
+            self.xdata4.append(self.nowAfterCalibration())
+            self.ydata4.append(allTransmittance)
+            
+            self.update_plot()
+
             return redTransmittance, greenTransmittance, blueTransmittance, allTransmittance
 
     def testResponseTimeLDR(self):
@@ -250,8 +295,8 @@ class MainWidget(QWidget):
                 ldrValue = self.readLDR(delay=0)
                 time.time() - self.start_time
                 print(f"t={self.nowAfterCalibration():.1f}s: {ldrValue}")
-class MainWindow(QMainWindow):
 
+class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
@@ -272,10 +317,10 @@ class MainWindow(QMainWindow):
 
         self.setStatusBar(QStatusBar(self))
 
-
     def onMyToolBarButtonClick(self, s):
         print("tbclick")
         self.wid.testResponseTimeLDR()
+        #update_plot()
         #self.wid.readLDR(self.wid)
 
 def main():
